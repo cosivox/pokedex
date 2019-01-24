@@ -7,7 +7,8 @@ How to run
 Make sure you have the latest Stable or LTS version of Node.js installed.
 
 1. `git clone https://github.com/cosivox/pokedex.git`
-2. Run `npm install`
-3. Build the server using `npm run build`
-4. Start the server using `npm run start`
-5. After that it will automatically open default browser and running in [http://localhost:3000](http://localhost:3000)
+2. `cd pokedex`
+3. Run `npm install`
+4. Build the server using `npm run build`
+5. Start the server using `npm run start`
+6. After that it will automatically open default browser and running in [http://localhost:3000](http://localhost:3000)
