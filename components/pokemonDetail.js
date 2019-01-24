@@ -7,6 +7,9 @@ import addZeros from "../lib/addZeros"
 
 const Container = styled.div`
     padding: 30px;
+    @media only screen and (max-width: 400px){
+        padding: 10px 0;
+    }
 `
 
 const Description = styled.div`
