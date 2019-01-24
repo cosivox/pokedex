@@ -246,7 +246,7 @@ class Index extends React.Component {
             {pages.length > 1 && <PagesContainer>
                 {pages}
             </PagesContainer>}
-            <Modal visible={!!pokemonSelected} onClose={this.deselectPokemon} width={500}>
+            <Modal showCloseButton={!this.state.loading} closeMaskOnClick={!this.state.loading} visible={!!pokemonSelected} onClose={this.deselectPokemon} width={500}>
                 <PokemonDetail loading={this.state.loading} pokemon={pokemonSelected} />
             </Modal>
         </Root>
