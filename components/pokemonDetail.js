@@ -133,6 +133,7 @@ const Value = styled.div`
     border: 1px solid #ebebeb;
     padding: 3px 14px;
     border-radius: 4px;
+    position:relative;
 `
 
 const SwitchContainer = styled.div`
