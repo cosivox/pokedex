@@ -43,6 +43,16 @@ const PokemonsContainer = styled.div`
     justify-items: center;
 `
 
+const fa = `
+    position: absolute;
+    padding: 10px;
+    color: #979797;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+`
+
 const SearchContainer = styled.div`
     display: flex;
     justify-content:center;
@@ -53,7 +63,7 @@ const SearchContainer = styled.div`
     & input{
         flex: 1;
         max-width: 870px;
-        padding: 15px 15px 15px 36px;
+        padding: 15px 36px 15px 36px;
         box-shadow: inset 0px 1px 5px #cacaca;
         border: none;
         border-radius: 5px;
@@ -61,16 +71,17 @@ const SearchContainer = styled.div`
         box-sizing: border-box;
     }
 
-    & .fas{
-        position: absolute;
-        padding: 10px;
+    & .fa-search{
+        ${fa}
+        left:0;
         pointer-events: none;
-        color: #979797;
-        left: 0px;
-        top: 0;
-        bottom: 0;
-        display: flex;
-        align-items: center;
+    }
+
+    & .fa-times{
+        ${fa}
+        right:10px;
+        color:#000;
+        cursor: pointer;
     }
 `
 
@@ -165,7 +176,7 @@ class Index extends React.Component {
     }
 
     searchPokemon = (event) => {
-        const value = event.target.value
+        const value = event && event.target.value
         if (value) {
             if (!this.pageBuffer)
                 this.pageBuffer = this.props.router.query.page
@@ -221,6 +232,11 @@ class Index extends React.Component {
         })
     }
 
+    clearSearch = ()=>{
+        this.searchInputRef.value = ""
+        this.searchPokemon()
+    }
+
     render() {
         const { offset, pokemonsFiltered, pokemonSelected } = this.state
         const actualPage = this.props.router.query.page ? parseInt(this.props.router.query.page) : 1
@@ -238,7 +254,8 @@ class Index extends React.Component {
             <LogoContainer><img src="/static/logo-pokemon.png" alt="" /></LogoContainer>
             <SearchContainer>
                 <i className="fas fa-search"></i>
-                <input onChange={this.searchPokemon} placeholder="Search by keywords..." type="text" className="form-control" />
+                <input ref={ref=>this.searchInputRef=ref} onChange={this.searchPokemon} placeholder="Search by keywords..." type="text" className="form-control" />
+                {pokemonsFiltered && <i onClick={this.clearSearch} className="fas fa-times"></i>}
             </SearchContainer>
             <PokemonsContainer>
                 {pokemons.slice(offset, offset + limit).map((pokemon, index) => <PokemonPreview selected={this.state.pokemonSelected && this.state.pokemonSelected.id == pokemon.id} key={pokemon.id} onClick={this.selectPokemon} pokemon={pokemon} />)}
