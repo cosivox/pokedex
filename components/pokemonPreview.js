@@ -20,10 +20,16 @@ const Container = styled.a`
         ${select}
     }
 
-    ${({selected})=>selected?select:null}
+    ${({ selected }) => selected ? select : null}
+
+    & img{
+        background-color: #fff;
+        position:relative; 
+        z-index:2;
+    }
 `
 
-const Name= styled.div`
+const Name = styled.div`
     color: #273d4d;
     font-weight: 500;
     font-size: 18px;
@@ -37,10 +43,31 @@ const Id = styled.div`
     margin-top: 5px;
 `
 
+const Loading = styled.div`
+    position: absolute; 
+    top: 0; 
+    right: 0;
+    left: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+
+    & i{
+        color: #d8d8d8;
+    }
+`
+
 const PokemonDetail = (props) => {
     const { pokemon: { name, url, id }, onClick } = props
-    return <Container selected={props.selected} key={id} onClick={()=>onClick(props.pokemon)}>
-        <div><img src={apiURL.frontSprite(id)} alt="" /></div>
+    return <Container selected={props.selected} key={id} onClick={() => onClick(props.pokemon)}>
+        <div style={{ position: "relative", minHeight: 100 }}>
+            <Loading className="fa-3x">
+                <i className="fas fa-spinner fa-spin"></i>
+            </Loading>
+            <img src={apiURL.frontSprite(id)} onError={(e) => { e.target.src = "/static/pokeball.png"; e.target.height = 96 }} alt="" />
+        </div>
         <Name>{name}</Name>
         <Id>#{addZeros(id)}</Id>
     </Container>
