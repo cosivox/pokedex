@@ -232,7 +232,7 @@ class Index extends React.Component {
         })
     }
 
-    clearSearch = ()=>{
+    clearSearch = () => {
         this.searchInputRef.value = ""
         this.searchPokemon()
     }
@@ -244,24 +244,46 @@ class Index extends React.Component {
         const count = pokemons.length
 
         const pages = []
+        const pagesBefore = []
+        const pagesAfter = []
 
         const remainder = count % limit == 0 ? 0 : 1
         for (let i = 1; i <= count / limit + remainder; i++)
             pages.push(<Page selected={actualPage == i} key={i} onClick={() => { this.changePage(i) }} >{i}</Page>)
+
+        for (let i = 1; pages[actualPage-i] && i<4; i++) {
+            pagesBefore.unshift(pages[actualPage-i])
+            if(actualPage-i > 0 && i==3){
+                pagesBefore.shift()
+                pagesBefore.unshift(pages[0])
+            }
+        }
+        for (let i = 0; pages[actualPage+i] && i<2+(3-pagesBefore.length); i++) {
+            pagesAfter.push(pages[actualPage+i])
+            if(actualPage+i < pages.length-1 && i==2+(3-pagesBefore.length)-1){
+                pagesAfter.pop()
+                pagesAfter.push(pages[pages.length-1])
+            }
+        }
+
+        const pagesToShow = pagesBefore.concat(pagesAfter)
+
 
         return <Root>
             <Line />
             <LogoContainer><img src="/static/logo-pokemon.png" alt="" /></LogoContainer>
             <SearchContainer>
                 <i className="fas fa-search"></i>
-                <input ref={ref=>this.searchInputRef=ref} onChange={this.searchPokemon} placeholder="Search by keywords..." type="text" className="form-control" />
+                <input ref={ref => this.searchInputRef = ref} onChange={this.searchPokemon} placeholder="Search by keywords..." type="text" className="form-control" />
                 {pokemonsFiltered && <i onClick={this.clearSearch} className="fas fa-times"></i>}
             </SearchContainer>
             <PokemonsContainer>
                 {pokemons.slice(offset, offset + limit).map((pokemon, index) => <PokemonPreview selected={this.state.pokemonSelected && this.state.pokemonSelected.id == pokemon.id} key={pokemon.id} onClick={this.selectPokemon} pokemon={pokemon} />)}
             </PokemonsContainer>
             {pages.length > 1 && <PagesContainer>
-                {pages}
+                <Page style={{borderRadius:"7px 0 0 7px"}} onClick={()=>{pages[actualPage-2]?this.changePage(actualPage-1):null}} ><i className="fas fa-caret-left"></i></Page>
+                {pagesToShow}
+                <Page style={{borderRadius:"0 7px 7px 0"}} onClick={()=>{pages[actualPage]?this.changePage(actualPage+1):null}} ><i className="fas fa-caret-right"></i></Page>
             </PagesContainer>}
             <Modal showCloseButton={!this.state.loading} closeMaskOnClick={!this.state.loading} visible={!!pokemonSelected} onClose={this.deselectPokemon} width={500}>
                 <PokemonDetail loading={this.state.loading} pokemon={pokemonSelected} />
