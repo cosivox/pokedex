@@ -66,7 +66,7 @@ const PokemonDetail = (props) => {
             <Loading className="fa-3x">
                 <i className="fas fa-spinner fa-spin"></i>
             </Loading>
-            <img src={apiURL.frontSprite(id)} onError={(e) => { e.target.src = "/static/pokeball.png"; e.target.height = 96 }} alt="" />
+            <img src={apiURL.frontSprite(id)} onError={(e) => { e.target.onerror = null; e.target.src = "/static/pokeball.png"; e.target.height = 96 }} alt="" />
         </div>
         <Name>{name}</Name>
         <Id>#{addZeros(id)}</Id>
