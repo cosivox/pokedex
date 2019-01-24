@@ -1,6 +1,11 @@
 # Pokedex
 A Pokedex built with React and Next.js as a universal webapp (SSR).
 
+Live demo
+---
+
+[https://reactpokedex.now.sh](https://reactpokedex.now.sh)
+
 How to run
 ---
 
