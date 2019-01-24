@@ -286,12 +286,12 @@ class PokemonDetail extends React.Component {
             <div style={{ ...this.state.chart ? { position: "relative", visibility: "visible" } : { position: "absolute", visibility: "hidden" } }}><canvas height={250} id="pokemonChart"></canvas></div>
             {!this.state.chart && <div>{this.state.statsDefinition.map((stat, i) => <RowStat key={i}>
                 <Label>{stat.display}</Label>
-                <Bar>
+                {stat.value && <Bar>
                     <ProgressContainer value={(stat.value * 100) / 150}>
                         <Progress /><Value>{stat.value}</Value>
                     </ProgressContainer>
                     <ProgressLeft />
-                </Bar>
+                </Bar>}
             </RowStat>)}</div>}
             <SwitchContainer>
                 Chart View
